@@ -1,0 +1,55 @@
+<h4>Личный кабинет (User)</h4>
+{{#if error}}
+  <div class="red-text">{{error}}</div>
+{{/if}}
+
+{{#if appInfo}}
+  <p>Статус вашей последней заявки: <strong>{{appInfo.status}}</strong></p>
+  {{#if (eq appInfo.status 'pending')}}
+    <p>Пожалуйста, дождитесь решения.</p>
+  {{/if}}
+  {{#if (eq appInfo.status 'rejected')}}
+    <p>Простите, но мы пока не готовы вас взять.</p>
+  {{/if}}
+  {{#if (eq appInfo.status 'test_assigned')}}
+    <p>Вам выдано тестовое задание. <br> Проверьте форму для загрузки решения ниже.</p>
+    <!-- Здесь же можно показать текст задания, если он есть -->
+  {{/if}}
+  {{#if (eq appInfo.status 'test_submitted')}}
+    <p>Вы уже отправили тестовое задание. Ожидайте!</p>
+  {{/if}}
+  {{#if (eq appInfo.status 'invited')}}
+    <p>Поздравляем! Вы приглашены на собеседование</p>
+  {{/if}}
+  {{!-- и т.д. --}}
+{{else}}
+  <p>У вас нет активных заявок.</p>
+  <form action="/user/apply" method="POST">
+    <div class="input-field">
+      <label for="vacancyId">Выберите вакансию (ID)</label>
+      <input type="number" name="vacancyId" id="vacancyId" required>
+    </div>
+    <div class="input-field">
+      <label for="candidateAbout">Расскажите о себе</label>
+      <textarea name="candidateAbout" id="candidateAbout" class="materialize-textarea" required></textarea>
+    </div>
+    <button class="btn">Отправить заявку</button>
+  </form>
+{{/if}}
+
+{{#if (eq appInfo.status 'test_assigned')}}
+  <h5>Отправить решение тестового задания</h5>
+  <form action="/user/submit-test" method="POST">
+    <!-- укажите applicationId чтобы знать, какую заявку обновлять -->
+    <input type="hidden" name="applicationId" value="{{appInfo.id}}"/>
+    <div class="input-field">
+      <label for="gitLink">Ссылка на Git</label>
+      <input type="text" name="gitLink" id="gitLink" required />
+    </div>
+    <div class="input-field">
+      <label for="videoLink">Ссылка на видео (Диск/YouTube)</label>
+      <input type="text" name="videoLink" id="videoLink" required />
+    </div>
+    <button class="btn">Отправить</button>
+  </form>
+{{/if}}

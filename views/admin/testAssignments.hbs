@@ -1,0 +1,40 @@
+<h4>Технические задания</h4>
+
+<table class="striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Вакансия</th>
+      <th>Задание</th>
+      <th>Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each assignments}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{vacancy_title}}</td>
+      <td>{{assignment_text}}</td>
+      <td>
+        <form action="/admin/test-assignments/delete" method="POST" style="display:inline;">
+          <input type="hidden" name="id" value="{{id}}">
+          <button class="btn-small red">Удалить</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<h5>Добавить задание</h5>
+<form action="/admin/test-assignments/create" method="POST">
+  <div class="input-field">
+    <input type="number" name="vacancyId" required>
+    <label>ID вакансии</label>
+  </div>
+  <div class="input-field">
+    <textarea name="assignmentText" class="materialize-textarea" required></textarea>
+    <label>Текст задания</label>
+  </div>
+  <button class="btn">Добавить</button>
+</form>
