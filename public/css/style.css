@@ -1,0 +1,11 @@
+.block-btn {
+    width: 100%;
+    display: block;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  
+  .block-btn:hover {
+    transform: scale(1.05);
+  }
+  

@@ -5,7 +5,8 @@
     <tr>
       <th>ID</th>
       <th>Вакансия</th>
-      <th>Задание</th>
+      <th>Название ТЗ</th>
+      <th>Текст задания</th>
       <th>Действия</th>
     </tr>
   </thead>
@@ -14,11 +15,18 @@
     <tr>
       <td>{{id}}</td>
       <td>{{vacancy_title}}</td>
+      <td>{{title}}</td>
       <td>{{assignment_text}}</td>
       <td>
         <form action="/admin/test-assignments/delete" method="POST" style="display:inline;">
           <input type="hidden" name="id" value="{{id}}">
-          <button class="btn-small red">Удалить</button>
+          <button
+      class="btn-small red tooltipped"
+      data-tooltip="Удалить"
+      type="submit"
+    >
+      <i class="material-icons">delete</i>
+    </button>
         </form>
       </td>
     </tr>
@@ -29,12 +37,30 @@
 <h5>Добавить задание</h5>
 <form action="/admin/test-assignments/create" method="POST">
   <div class="input-field">
-    <input type="number" name="vacancyId" required>
-    <label>ID вакансии</label>
+    <select name="vacancyId" required>
+      <option value="" disabled selected>Выберите вакансию</option>
+      {{#each vacancies}}
+        <option value="{{id}}">{{title}}</option>
+      {{/each}}
+    </select>
+    <label>Вакансия</label>
   </div>
+
+  <div class="input-field">
+    <input type="text" name="title" required />
+    <label>Название задания</label>
+  </div>
+
   <div class="input-field">
     <textarea name="assignmentText" class="materialize-textarea" required></textarea>
     <label>Текст задания</label>
   </div>
   <button class="btn">Добавить</button>
 </form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+  });
+</script>

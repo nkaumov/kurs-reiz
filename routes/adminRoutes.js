@@ -17,8 +17,10 @@ router.get('/dashboard', isAdmin, adminController.getDashboard);
 // Управление вакансиями
 router.get('/vacancies', isAdmin, adminController.getVacancies);
 router.post('/vacancies/create', isAdmin, adminController.createVacancy);
+router.get('/vacancies/edit/:id', isAdmin, adminController.editVacancyForm);
 router.post('/vacancies/update', isAdmin, adminController.updateVacancy);
 router.post('/vacancies/delete', isAdmin, adminController.deleteVacancy);
+
 
 // Управление заявками
 router.get('/applications', isAdmin, adminController.getApplications);

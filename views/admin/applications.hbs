@@ -6,37 +6,78 @@
       <th>ID</th>
       <th>Кандидат</th>
       <th>Вакансия</th>
-      <th>Описание</th>
+      <th>О себе</th>
       <th>Статус</th>
-      <th>Действия</th>
+      <th>Ссылки</th>
+      <th>Выдать ТЗ / Изменить статус</th>
     </tr>
   </thead>
   <tbody>
     {{#each apps}}
     <tr>
       <td>{{id}}</td>
-      <td>{{user_id}}</td>
-      <td>{{vacancy_id}}</td>
+      <td>{{first_name}} {{last_name}}</td>
+      <td>{{vacancy_title}}</td>
       <td>{{candidate_about}}</td>
-      <td>{{status}}</td>
+      <td>{{statusText status}}</td>
       <td>
-        <form action="/admin/applications/status" method="POST" style="display:inline;">
+        {{#if git_link}}
+          <p><strong>Git:</strong> <a href="{{git_link}}" target="_blank">Ссылка</a></p>
+        {{/if}}
+        {{#if video_link}}
+          <p><strong>Видео:</strong> <a href="{{video_link}}" target="_blank">Ссылка</a></p>
+        {{/if}}
+      </td>
+      <td style="min-width:250px;">
+        <!-- Форма Отклонить -->
+        <form action="/admin/applications/status" method="POST" style="display:inline-block;">
           <input type="hidden" name="applicationId" value="{{id}}">
           <input type="hidden" name="status" value="rejected">
           <button class="btn-small red">Отклонить</button>
         </form>
-        <form action="/admin/applications/status" method="POST" style="display:inline;">
+
+        {{!-- Если статус pending => выдать ТЗ; если test_submitted => пригласить или отклонить ? 
+             Но можно и всегда показывать выпадающий список. --}}
+
+        <!-- Выдать ТЗ -->
+        <form action="/admin/applications/status" method="POST" style="display:inline-block; margin-top:4px;">
           <input type="hidden" name="applicationId" value="{{id}}">
+          <input type="hidden" name="status" value="test_assigned">
+
+          <!-- список заданий -->
           <select name="testAssignmentId">
+            <option disabled selected>Выберите ТЗ</option>
             {{#each ../assignments}}
-              <option value="{{id}}">{{assignment_text}}</option>
+              {{#if (eq vacancy_id ../vacancy_id)}}
+              <option value="{{id}}">{{title}}</option>
+              {{/if}}
             {{/each}}
           </select>
-          <input type="hidden" name="status" value="test_assigned">
           <button class="btn-small green">Выдать ТЗ</button>
         </form>
+
+        <!-- При проверке результата -->
+        {{#if (eq status 'test_submitted')}}
+          <form action="/admin/applications/status" method="POST" style="display:inline-block; margin-top:4px;">
+            <input type="hidden" name="applicationId" value="{{id}}">
+            <input type="hidden" name="status" value="invited">
+            <button class="btn-small blue">Пригласить на собеседование</button>
+          </form>
+          <form action="/admin/applications/status" method="POST" style="display:inline-block; margin-top:4px;">
+            <input type="hidden" name="applicationId" value="{{id}}">
+            <input type="hidden" name="status" value="test_rejected">
+            <button class="btn-small orange">Отклонить ТЗ</button>
+          </form>
+        {{/if}}
       </td>
     </tr>
     {{/each}}
   </tbody>
 </table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
+  });
+</script>

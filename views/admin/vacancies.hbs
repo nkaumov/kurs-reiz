@@ -12,25 +12,37 @@
   </thead>
   <tbody>
     {{#each vacancies}}
-    <tr>
-      <td>{{id}}</td>
-      <td>{{title}}</td>
-      <td>{{description}}</td>
-      <td>{{#if is_active}}Активна{{else}}Неактивна{{/if}}</td>
-      <td>
-        <form action="/admin/vacancies/update" method="POST" style="display:inline;">
-          <input type="hidden" name="id" value="{{id}}">
-          <input type="hidden" name="title" value="{{title}}">
-          <input type="hidden" name="description" value="{{description}}">
-          <input type="hidden" name="isActive" value="{{is_active}}">
-          <button class="btn-small yellow">Редактировать</button>
-        </form>
-        <form action="/admin/vacancies/delete" method="POST" style="display:inline;">
-          <input type="hidden" name="id" value="{{id}}">
-          <button class="btn-small red">Удалить</button>
-        </form>
-      </td>
-    </tr>
+      <tr>
+        <td>{{id}}</td>
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td>{{#if is_active}}Активна{{else}}Неактивна{{/if}}</td>
+        <td>
+  <a
+    href="/admin/vacancies/edit/{{id}}"
+    class="btn-small purple darken-1 tooltipped"
+    data-tooltip="Редактировать"
+  >
+    <i class="material-icons">edit</i>
+  </a>
+
+  <form
+    action="/admin/vacancies/delete"
+    method="POST"
+    style="display:inline;"
+  >
+    <input type="hidden" name="id" value="{{id}}" />
+    <button
+      class="btn-small red tooltipped"
+      data-tooltip="Удалить"
+      type="submit"
+    >
+      <i class="material-icons">delete</i>
+    </button>
+  </form>
+</td>
+
+      </tr>
     {{/each}}
   </tbody>
 </table>
@@ -38,16 +50,20 @@
 <h5>Добавить новую вакансию</h5>
 <form action="/admin/vacancies/create" method="POST">
   <div class="input-field">
-    <input type="text" name="title" required>
+    <input type="text" name="title" required />
     <label>Название</label>
   </div>
   <div class="input-field">
-    <textarea name="description" class="materialize-textarea" required></textarea>
+    <textarea
+      name="description"
+      class="materialize-textarea"
+      required
+    ></textarea>
     <label>Описание</label>
   </div>
   <p>
     <label>
-      <input type="checkbox" name="isActive" checked>
+      <input type="checkbox" name="isActive" checked />
       <span>Активна</span>
     </label>
   </p>

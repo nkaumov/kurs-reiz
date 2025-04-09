@@ -1,0 +1,16 @@
+<nav>
+  <div class="nav-wrapper purple darken-4">
+    <div class="container">
+      <span class="brand-logo">REIZ Company</span>
+
+      <ul class="right hide-on-med-and-down">
+        {{#if session.user}}
+          <li><a href="/auth/logout">Выйти</a></li>
+        {{else}}
+          <li><a href="/auth/login">Войти</a></li>
+          <li><a href="/auth/register">Регистрация</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>

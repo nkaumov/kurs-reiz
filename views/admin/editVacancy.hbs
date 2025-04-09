@@ -1,0 +1,29 @@
+<h4>Редактировать вакансию</h4>
+
+<form action="/admin/vacancies/update" method="POST">
+  <input type="hidden" name="id" value="{{vacancy.id}}" />
+
+  <div class="input-field">
+    <input type="text" name="title" id="title" value="{{vacancy.title}}" required>
+    <label class="active" for="title">Название</label>
+  </div>
+
+  <div class="input-field">
+    <textarea name="description" id="description" class="materialize-textarea" required>{{vacancy.description}}</textarea>
+    <label class="active" for="description">Описание</label>
+  </div>
+
+  <p>
+    <label>
+      <input 
+        type="checkbox"
+        name="isActive" 
+        value="1"
+        {{#if vacancy.is_active}}checked{{/if}}
+      >
+      <span>Активна</span>
+    </label>
+  </p>
+
+  <button class="btn">Сохранить</button>
+</form>

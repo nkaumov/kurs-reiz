@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
-    <meta charset="UTF-8">
-    <title>{{{title}}}</title>
-    <!-- Materialize CSS (CDN) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"/>
-    <link href="/css/style.css" rel="stylesheet"/> <!-- ваш файл стилей -->
+    {{> head}}
   </head>
   <body>
-    <!-- Меню / Шапка -->
-    <nav>
-      <div class="nav-wrapper">
-        <a href="/" class="brand-logo">Kursovaya Reiz</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="/">Главная</a></li>
-          <li><a href="/auth/login">Вход</a></li>
-          <li><a href="/auth/register">Регистрация</a></li>
-          <!-- И т.д. Смотрите по логике -->
-        </ul>
-      </div>
-    </nav>
+    {{> navbar}}
+    {{> backButton}}
 
-    <div class="container" style="margin-top: 20px;">
-      {{{body}}} 
-      <!-- Здесь будет вставляться контент конкретной страницы -->
-    </div>
 
-    <!-- Materialize JS (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- Ваш JS -->
-    <script src="/js/main.js"></script>
+    <main class="container" style="margin-top: 30px;">
+      {{{body}}}
+    </main>
+
+    
+    {{> scripts}}
   </body>
+  {{> footer}}
 </html>

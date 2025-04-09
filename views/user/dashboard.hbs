@@ -4,44 +4,62 @@
 {{/if}}
 
 {{#if appInfo}}
-  <p>Статус вашей последней заявки: <strong>{{appInfo.status}}</strong></p>
-  {{#if (eq appInfo.status 'pending')}}
+  <p>Статус вашей последней заявки:
+    <strong>{{statusText appInfo.status}}</strong></p>
+  {{#if (eq appInfo.status "pending")}}
     <p>Пожалуйста, дождитесь решения.</p>
   {{/if}}
-  {{#if (eq appInfo.status 'rejected')}}
+  {{#if (eq appInfo.status "rejected")}}
     <p>Простите, но мы пока не готовы вас взять.</p>
   {{/if}}
-  {{#if (eq appInfo.status 'test_assigned')}}
-    <p>Вам выдано тестовое задание. <br> Проверьте форму для загрузки решения ниже.</p>
+  {{#if (eq appInfo.status "test_assigned")}}
+    <p>Вам выдано тестовое задание.
+      <br />
+      Проверьте форму для загрузки решения ниже.</p>
     <!-- Здесь же можно показать текст задания, если он есть -->
   {{/if}}
-  {{#if (eq appInfo.status 'test_submitted')}}
+  {{#if (eq appInfo.status "test_submitted")}}
     <p>Вы уже отправили тестовое задание. Ожидайте!</p>
   {{/if}}
-  {{#if (eq appInfo.status 'invited')}}
+  {{#if (eq appInfo.status "invited")}}
     <p>Поздравляем! Вы приглашены на собеседование</p>
   {{/if}}
-  {{!-- и т.д. --}}
+  {{! и т.д. }}
 {{else}}
   <p>У вас нет активных заявок.</p>
-  <form action="/user/apply" method="POST">
-    <div class="input-field">
-      <label for="vacancyId">Выберите вакансию (ID)</label>
-      <input type="number" name="vacancyId" id="vacancyId" required>
-    </div>
-    <div class="input-field">
-      <label for="candidateAbout">Расскажите о себе</label>
-      <textarea name="candidateAbout" id="candidateAbout" class="materialize-textarea" required></textarea>
-    </div>
-    <button class="btn">Отправить заявку</button>
-  </form>
+  {{#if (notEmpty vacancies)}}
+    <form action="/user/apply" method="POST">
+      <div class="input-field">
+        <select name="vacancyId" required>
+          <option value="" disabled selected>Выберите вакансию</option>
+          {{#each vacancies}}
+            <option value="{{id}}">{{title}}</option>
+          {{/each}}
+        </select>
+        <label>Вакансия</label>
+      </div>
+      <div class="input-field">
+        <textarea
+          name="candidateAbout"
+          id="candidateAbout"
+          class="materialize-textarea"
+          required
+        ></textarea>
+        <label for="candidateAbout">Расскажите о себе</label>
+      </div>
+      <button class="btn">Отправить заявку</button>
+    </form>
+  {{else}}
+    <p>Нет доступных (активных) вакансий.</p>
+  {{/if}}
+
 {{/if}}
 
-{{#if (eq appInfo.status 'test_assigned')}}
+{{#if (eq appInfo.status "test_assigned")}}
   <h5>Отправить решение тестового задания</h5>
   <form action="/user/submit-test" method="POST">
     <!-- укажите applicationId чтобы знать, какую заявку обновлять -->
-    <input type="hidden" name="applicationId" value="{{appInfo.id}}"/>
+    <input type="hidden" name="applicationId" value="{{appInfo.id}}" />
     <div class="input-field">
       <label for="gitLink">Ссылка на Git</label>
       <input type="text" name="gitLink" id="gitLink" required />
@@ -53,3 +71,8 @@
     <button class="btn">Отправить</button>
   </form>
 {{/if}}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() { var elems =
+  document.querySelectorAll('select'); M.FormSelect.init(elems); });
+</script>

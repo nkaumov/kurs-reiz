@@ -3,21 +3,24 @@ const pool = require('../config/db');
 
 module.exports.getDashboard = async (req, res) => {
   try {
-    // Выводим, например, информацию о пользователе, либо статус текущей заявки и т.п.
     const userId = req.session.user.id;
-    
+
     // Узнаем, есть ли у пользователя активная заявка
     const [applications] = await pool.query(
       'SELECT * FROM applications WHERE user_id = ? ORDER BY created_at DESC LIMIT 1',
       [userId]
     );
-    
-    let appInfo = null;
-    if (applications.length > 0) {
-      appInfo = applications[0];
+
+    let appInfo = applications.length ? applications[0] : null;
+    let vacancies = [];
+
+    // Если нет заявок, значит можем показать форму с селектором вакансий
+    if (!appInfo) {
+      const [rows] = await pool.query('SELECT id, title FROM vacancies WHERE is_active = 1');
+      vacancies = rows;
     }
-    
-    res.render('user/dashboard', { appInfo });
+
+    res.render('user/dashboard', { appInfo, vacancies });
   } catch (err) {
     console.error(err);
     res.render('user/dashboard', { error: 'Ошибка при загрузке дашборда' });
