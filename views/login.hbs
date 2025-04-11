@@ -1,16 +1,33 @@
-{{!-- views/login.hbs --}}
-<h4>Вход</h4>
-{{#if error}}
-  <div class="red-text">{{error}}</div>
-{{/if}}
-<form action="/auth/login" method="POST">
-  <div class="input-field">
-    <input type="text" name="phone" id="phone" required>
-    <label for="phone">Номер телефона</label>
+<div class="row">
+  <div class="col s12 m6 offset-m3">
+    <div class="card z-depth-3">
+      <div class="card-content">
+        <h5 class="center-align" style="font-family: 'Comfortaa', sans-serif;">Вход в систему</h5>
+
+        {{#if error}}
+          <div class="red-text center-align" style="margin-bottom: 10px;">{{error}}</div>
+        {{/if}}
+
+        <form action="/auth/login" method="POST">
+          <div class="input-field">
+            <input type="text" name="phone" id="phone" required>
+            <label for="phone">Номер телефона</label>
+          </div>
+
+          <div class="input-field">
+            <input type="password" name="password" id="password" required>
+            <label for="password">Пароль</label>
+          </div>
+
+          <div class="center-align" style="margin-top: 20px;">
+            <button class="btn waves-effect waves-light purple darken-2">Войти</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-action center-align">
+        <span>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></span>
+      </div>
+    </div>
   </div>
-  <div class="input-field">
-    <input type="password" name="password" id="password" required>
-    <label for="password">Пароль</label>
-  </div>
-  <button class="btn">Войти</button>
-</form>
+</div>

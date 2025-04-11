@@ -1,28 +1,48 @@
-{{!-- views/register.hbs --}}
-<h4>Регистрация</h4>
-{{#if error}}
-  <div class="red-text">{{error}}</div>
-{{/if}}
-<form action="/auth/register" method="POST">
-  <div class="input-field">
-    <input type="text" name="phone" id="phone" required>
-    <label for="phone">Телефон</label>
+<div class="row">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="card z-depth-3">
+      <div class="card-content">
+        <h5 class="center-align" style="font-family: 'Comfortaa', sans-serif;">Регистрация</h5>
+
+        {{#if error}}
+          <div class="red-text center-align" style="margin-bottom: 10px;">{{error}}</div>
+        {{/if}}
+
+        <form action="/auth/register" method="POST">
+          <div class="input-field">
+            <input type="text" name="phone" id="phone" required>
+            <label for="phone">Номер телефона</label>
+          </div>
+
+          <div class="input-field">
+            <input type="password" name="password" id="password" required>
+            <label for="password">Пароль</label>
+          </div>
+
+          <div class="input-field">
+            <input type="text" name="firstName" id="firstName" required>
+            <label for="firstName">Имя</label>
+          </div>
+
+          <div class="input-field">
+            <input type="text" name="lastName" id="lastName" required>
+            <label for="lastName">Фамилия</label>
+          </div>
+
+          <div class="input-field">
+            <input type="email" name="email" id="email">
+            <label for="email">Email (необязательно)</label>
+          </div>
+
+          <div class="center-align" style="margin-top: 20px;">
+            <button class="btn waves-effect waves-light purple darken-2">Зарегистрироваться</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-action center-align">
+        <span>Уже есть аккаунт? <a href="/auth/login">Войти</a></span>
+      </div>
+    </div>
   </div>
-  <div class="input-field">
-    <input type="password" name="password" id="password" required>
-    <label for="password">Пароль</label>
-  </div>
-  <div class="input-field">
-    <input type="text" name="firstName" id="firstName" required>
-    <label for="firstName">Имя</label>
-  </div>
-  <div class="input-field">
-    <input type="text" name="lastName" id="lastName" required>
-    <label for="lastName">Фамилия</label>
-  </div>
-  <div class="input-field">
-    <input type="email" name="email" id="email">
-    <label for="email">Email (необязательно)</label>
-  </div>
-  <button class="btn">Зарегистрироваться</button>
-</form>
+</div>
